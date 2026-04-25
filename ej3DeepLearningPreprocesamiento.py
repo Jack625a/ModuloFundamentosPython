@@ -10,6 +10,7 @@ import tensorflow as tf
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+from tensorflow.keras.callbacks import EarlyStopping
 
 #Datos
 x=np.array([
@@ -33,24 +34,31 @@ x=normalizar.fit_transform(x)
 
 #Crear el modelo
 modelo=tf.keras.Sequential([
-    tf.keras.layers.Dense(32,activation="relu", input_shape=(4,)),
+    tf.keras.layers.Dense(16,activation="relu", input_shape=(4,)),
     tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Dense(16,activation="relu"),
     tf.keras.layers.Dense(8,activation="relu"),
+    #tf.keras.layers.Dense(8,activation="relu"),
     tf.keras.layers.Dense(1,activation="tanh")
 ])
 
 #Compilar el modelo
+#Tasa de aprendizaje
+#0.01 (rapido ) - 0.001( mas estable)
 modelo.compile(
-    optimizer="adam",
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
     loss="mean_squared_error"
+)
+pausaAutomatica=EarlyStopping(
+    monitor="val_loss",
+    patience=20,
+    restore_best_weights=True
 )
 
 entrenar=modelo.fit(
     x,y,
-    epochs=300,
+    epochs=400,
     validation_split=0.2,
-    verbose=1
+    callbacks=[pausaAutomatica]
 )
 
 #Visualizacion de los datos 
@@ -87,3 +95,5 @@ for datos, p in enumerate(prediccion):
         print("Rendimiento Medio")
     else:
         print("Rendimiento Alto")
+
+modelo.save("modeloRendimiento_Estudiante.h5")
