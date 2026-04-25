@@ -60,3 +60,30 @@ plt.legend("Entrenamiento","Validacion")
 plt.xlabel("Epocas")
 plt.ylabel("Error")
 plt.show()
+
+
+#NUEVOS DATOS
+nuevoDatos=np.array([
+    [7,80,7,3],
+    [3,60,5,7],
+    [9,70,8,2],
+    [11,85,9,1],
+    [2,90,1,10],
+    [18,90,10,10]
+],dtype=float)
+
+#Normalizar los nuevos datos
+nuevaNormalizacion=normalizar.transform(nuevoDatos)
+
+#Prediccion 
+prediccion=modelo.predict(nuevaNormalizacion)
+
+#Interpretacion de los resultados
+for datos, p in enumerate(prediccion):
+    print(f"Estudiante {datos+1}: {p[0]:.3f}")
+    if p[0]<-0.3:
+        print("Rendimiento Bajo")
+    elif -0.3<=p[0]<=0.3:
+        print("Rendimiento Medio")
+    else:
+        print("Rendimiento Alto")
