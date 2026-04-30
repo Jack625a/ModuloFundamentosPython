@@ -42,3 +42,6 @@ nuevasHoras=(nuevasHoras-6)/2
 
 prediccion=modelo.predict(nuevasHoras)
 print("Resultado es ", prediccion[0][0])
+
+
+modelo.save("CapasProfundasMachineLearning.h5")
