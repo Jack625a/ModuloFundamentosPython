@@ -7,6 +7,7 @@
 #25 = CALIENTE= 1
 import tensorflow as tf
 import numpy as np
+import tkinter
 
 temperaturaX=np.array([5,10,15,20,25],dtype=float)
 escalaY=np.array([-1,-1,0,1,1],dtype=float)
